@@ -233,7 +233,7 @@
 
         <!-- ① 방문 정보 -->
         <div class="section-label">방문 정보</div>
-        <div class="form-row">
+        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="form-group">
             <label>날짜</label>
             <input type="date" id="visitDate">
@@ -241,6 +241,10 @@
           <div class="form-group">
             <label>방문 시각</label>
             <input type="time" id="visitTime">
+          </div>
+          <div class="form-group">
+            <label>퇴실 예정 시각</label>
+            <input type="time" id="exitTime">
           </div>
         </div>
         <div class="form-group">
@@ -311,7 +315,7 @@
   <script>
     // ── 구성 ──────────────────────────────────────────────
     // Google Apps Script 배포 URL을 아래에 붙여넣으세요
-    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec';
     // ──────────────────────────────────────────────────────
 
     // 헤더 시계
@@ -377,6 +381,7 @@
       const payload = {
         날짜:        document.getElementById('visitDate').value,
         방문시각:     document.getElementById('visitTime').value,
+        퇴실예정시각:  document.getElementById('exitTime').value,
         방문목적:     document.getElementById('visitPurpose').value,
         방문자이름:   document.getElementById('visitorName').value.trim(),
         소속회사:     document.getElementById('visitorCompany').value.trim(),
@@ -389,7 +394,7 @@
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload),
         });
         // no-cors 모드에서는 응답을 읽을 수 없으므로 전송 성공으로 간주
