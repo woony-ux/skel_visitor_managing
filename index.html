@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="방문자 등록">
+  <title>방문자 등록 | SK일렉링크</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: #EEF1F7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #003087 0%, #0052CC 100%);
+      color: white;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header-left .sub {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    #clock { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+
+    /* ── SCROLL AREA ── */
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 24px 20px 40px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 28px;
+      box-shadow: 0 4px 24px rgba(0,48,135,0.08);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #003087;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #003087;
+      margin-bottom: 20px;
+      margin-top: 8px;
+    }
+    .section-label:not(:first-child) {
+      margin-top: 28px;
+    }
+
+    /* ── FORM GRID ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 7px;
+    }
+    label .req { color: #E53E3E; margin-left: 2px; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 16px; /* 16px: iOS 자동 확대 방지 */
+      border: 2px solid #E2E8F0;
+      border-radius: 10px;
+      outline: none;
+      background: #fff;
+      color: #1A202C;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #003087;
+      box-shadow: 0 0 0 3px rgba(0,48,135,0.1);
+    }
+
+    /* select arrow */
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="time"]::-webkit-inner-spin-button { display: none; }
+
+    textarea { resize: none; height: 76px; }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #003087 0%, #0052CC 100%);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      margin-top: 28px;
+      font-family: inherit;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-submit:active { opacity: 0.85; transform: scale(0.99); }
+    .btn-submit:disabled { opacity: 0.5; cursor: default; }
+
+    /* ── SUCCESS OVERLAY ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay.show { display: flex; }
+
+    .success-box {
+      background: white;
+      border-radius: 24px;
+      padding: 52px 44px;
+      text-align: center;
+      max-width: 380px;
+      width: 88%;
+      animation: popIn 0.25s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .success-icon { font-size: 68px; margin-bottom: 12px; }
+    .success-title { font-size: 26px; font-weight: 800; color: #1A202C; margin-bottom: 6px; }
+    .success-msg { color: #718096; font-size: 15px; margin-bottom: 36px; }
+    .btn-next {
+      padding: 16px 44px;
+      background: linear-gradient(135deg, #003087 0%, #0052CC 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── ERROR TOAST ── */
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #E53E3E;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 300;
+      white-space: nowrap;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>방문자 등록</h1>
+      <div class="sub">SK일렉링크 임직원 방문 기록</div>
+    </div>
+    <div class="header-right">
+      <div id="clock">--:--:--</div>
+      <div id="dateLabel">----년 --월 --일</div>
+    </div>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div class="scroll-area">
+    <div class="card">
+      <form id="visitorForm" novalidate>
+
+        <!-- ① 방문 정보 -->
+        <div class="section-label">방문 정보</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>날짜</label>
+            <input type="date" id="visitDate">
+          </div>
+          <div class="form-group">
+            <label>방문 시각</label>
+            <input type="time" id="visitTime">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>방문 목적 <span class="req">*</span></label>
+          <select id="visitPurpose" required>
+            <option value="">선택해주세요</option>
+            <option value="미팅/상담">미팅/상담</option>
+            <option value="업무 협의">업무 협의</option>
+            <option value="면접">면접</option>
+            <option value="배송/수령">배송/수령</option>
+            <option value="시설 점검">시설 점검</option>
+            <option value="교육/세미나">교육/세미나</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+
+        <!-- ② 방문자 정보 -->
+        <div class="section-label">방문자 정보</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>방문자 이름 <span class="req">*</span></label>
+            <input type="text" id="visitorName" placeholder="홍길동" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>소속/회사 <span class="req">*</span></label>
+            <input type="text" id="visitorCompany" placeholder="회사명" required autocomplete="off">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>임시방문증 번호</label>
+          <input type="text" id="badgeNumber" placeholder="예) A-001" autocomplete="off">
+        </div>
+
+        <!-- ③ SK일렉링크 담당자 -->
+        <div class="section-label">SK일렉링크 담당자</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>담당자 이름 <span class="req">*</span></label>
+            <input type="text" id="contactName" placeholder="담당자 이름" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>연락처 <span class="req">*</span></label>
+            <input type="tel" id="contactPhone" placeholder="010-0000-0000" required autocomplete="off">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          방문 등록 완료
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="overlay" id="overlay">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <div class="success-title">등록 완료!</div>
+      <div class="success-msg" id="successDetail">방문 기록이 저장되었습니다.</div>
+      <button class="btn-next" onclick="resetForm()">다음 방문자 →</button>
+    </div>
+  </div>
+
+  <!-- ERROR TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── 구성 ──────────────────────────────────────────────
+    // Google Apps Script 배포 URL을 아래에 붙여넣으세요
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+    // ──────────────────────────────────────────────────────
+
+    // 헤더 시계
+    function tick() {
+      const now = new Date();
+      document.getElementById('clock').textContent =
+        now.toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit', second: '2-digit'});
+      document.getElementById('dateLabel').textContent =
+        now.toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'});
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    // 날짜·시각 자동 입력
+    function fillDateTime() {
+      const now = new Date();
+      document.getElementById('visitDate').value =
+        now.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      document.getElementById('visitTime').value =
+        now.toTimeString().slice(0, 5);  // HH:MM
+    }
+    fillDateTime();
+
+    // 연락처 하이픈 자동 삽입
+    document.getElementById('contactPhone').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '');
+      if (v.length <= 3) this.value = v;
+      else if (v.length <= 7) this.value = v.slice(0, 3) + '-' + v.slice(3);
+      else this.value = v.slice(0, 3) + '-' + v.slice(3, 7) + '-' + v.slice(7, 11);
+    });
+
+    // 토스트 메시지
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // 폼 제출
+    document.getElementById('visitorForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const fields = {
+        visitPurpose: '방문 목적',
+        visitorName: '방문자 이름',
+        visitorCompany: '소속/회사',
+        contactName: '담당자 이름',
+        contactPhone: '연락처',
+      };
+      for (const [id, label] of Object.entries(fields)) {
+        if (!document.getElementById(id).value.trim()) {
+          showToast(`${label}을(를) 입력해주세요.`);
+          document.getElementById(id).focus();
+          return;
+        }
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '저장 중…';
+
+      const payload = {
+        날짜:        document.getElementById('visitDate').value,
+        방문시각:     document.getElementById('visitTime').value,
+        방문목적:     document.getElementById('visitPurpose').value,
+        방문자이름:   document.getElementById('visitorName').value.trim(),
+        소속회사:     document.getElementById('visitorCompany').value.trim(),
+        임시방문증번호: document.getElementById('badgeNumber').value.trim(),
+        담당자이름:   document.getElementById('contactName').value.trim(),
+        연락처:      document.getElementById('contactPhone').value.trim(),
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        // no-cors 모드에서는 응답을 읽을 수 없으므로 전송 성공으로 간주
+        const detail = `${payload.방문자이름} (${payload.소속회사}) 방문 기록이 저장되었습니다.`;
+        document.getElementById('successDetail').textContent = detail;
+        document.getElementById('overlay').classList.add('show');
+      } catch (err) {
+        showToast('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '방문 등록 완료';
+      }
+    });
+
+    // 폼 초기화
+    function resetForm() {
+      document.getElementById('visitorForm').reset();
+      fillDateTime();
+      document.getElementById('overlay').classList.remove('show');
+    }
+  </script>
+</body>
+</html>
