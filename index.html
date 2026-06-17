@@ -18,59 +18,49 @@
       font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background: #F2F2F7;
       min-height: 100vh;
+    }
+
+    .screen {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
+    .screen.hidden { display: none; }
 
-    /* ── HEADER ── */
     .header {
       background: #FFFFFF;
       border-bottom: 1px solid #E5E5EA;
-      color: #000000;
-      padding: 16px 32px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .header-left h1 {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #000000;
-    }
-    .header-left .sub {
-      font-size: 12px;
-      color: #8E8E93;
-      margin-top: 2px;
-      font-weight: 400;
-    }
-    .header-right {
-      text-align: right;
-      line-height: 1.5;
-    }
-    #clock { font-size: 22px; font-weight: 600; letter-spacing: 0.5px; color: #000000; }
-    #dateLabel { font-size: 12px; color: #8E8E93; }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #000000; letter-spacing: -0.3px; }
+    .header-left .sub { font-size: 12px; color: #8E8E93; margin-top: 1px; }
+    .header-right { text-align: right; }
+    #clock { font-size: 20px; font-weight: 600; color: #000000; }
+    #dateLabel { font-size: 11px; color: #8E8E93; }
 
-    /* ── SCROLL AREA ── */
     .scroll-area {
       flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 24px 20px 48px;
+      padding: 20px 16px 48px;
     }
 
-    /* ── CARD ── */
     .card {
       background: #FFFFFF;
       border-radius: 16px;
-      padding: 28px 28px;
+      padding: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      max-width: 680px;
+      max-width: 540px;
       margin: 0 auto;
     }
 
-    /* ── SECTION LABEL (iOS settings style) ── */
     .section-label {
       font-size: 11px;
       font-weight: 600;
@@ -79,20 +69,13 @@
       text-transform: uppercase;
       margin-bottom: 10px;
       margin-top: 8px;
-      padding-left: 4px;
+      padding-left: 2px;
     }
-    .section-label:not(:first-child) {
-      margin-top: 28px;
-    }
+    .section-label:not(:first-child) { margin-top: 24px; }
 
-    /* ── FORM GRID ── */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
     .form-group { margin-bottom: 12px; }
-    .form-group.full { grid-column: 1 / -1; }
 
     label {
       display: block;
@@ -133,10 +116,81 @@
     input[type="date"]::-webkit-inner-spin-button,
     input[type="time"]::-webkit-inner-spin-button { display: none; }
 
-    textarea { resize: none; height: 76px; }
+    .input-last4 { max-width: 120px; letter-spacing: 4px; text-align: center; font-weight: 600; }
 
-    /* ── SUBMIT BUTTON ── */
-    .btn-submit {
+    .consent-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 6px;
+    }
+    .consent-subtitle {
+      font-size: 13px;
+      color: #8E8E93;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .consent-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .consent-table th, .consent-table td {
+      border: 1px solid #E5E5EA;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .consent-table th {
+      background: #F2F2F7;
+      font-weight: 600;
+      color: #3C3C43;
+      width: 30%;
+      white-space: nowrap;
+    }
+    .consent-table td { color: #000000; }
+
+    .consent-notice {
+      font-size: 12px;
+      color: #8E8E93;
+      line-height: 1.6;
+      background: #F2F2F7;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+    }
+
+    .consent-check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      background: #F2F2F7;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    .consent-check-row input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      accent-color: #000000;
+      cursor: pointer;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+    .consent-check-row input[type="checkbox"]:focus { box-shadow: none; }
+    .consent-check-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000000;
+      cursor: pointer;
+    }
+
+    .btn-primary {
       width: 100%;
       padding: 17px;
       background: #000000;
@@ -147,14 +201,12 @@
       font-weight: 600;
       letter-spacing: -0.2px;
       cursor: pointer;
-      margin-top: 28px;
       font-family: inherit;
       transition: opacity 0.15s, transform 0.1s;
     }
-    .btn-submit:active { opacity: 0.75; transform: scale(0.99); }
-    .btn-submit:disabled { opacity: 0.3; cursor: default; }
+    .btn-primary:active { opacity: 0.75; transform: scale(0.99); }
+    .btn-primary:disabled { opacity: 0.3; cursor: default; }
 
-    /* ── SUCCESS OVERLAY ── */
     .overlay {
       display: none;
       position: fixed;
@@ -165,13 +217,12 @@
       justify-content: center;
     }
     .overlay.show { display: flex; }
-
     .success-box {
       background: #FFFFFF;
       border-radius: 20px;
-      padding: 48px 40px;
+      padding: 48px 36px;
       text-align: center;
-      max-width: 360px;
+      max-width: 340px;
       width: 88%;
       animation: popIn 0.2s ease;
     }
@@ -179,23 +230,21 @@
       from { transform: scale(0.90); opacity: 0; }
       to   { transform: scale(1);    opacity: 1; }
     }
-    .success-icon { font-size: 60px; margin-bottom: 14px; }
-    .success-title { font-size: 24px; font-weight: 700; color: #000000; margin-bottom: 6px; }
-    .success-msg { color: #8E8E93; font-size: 14px; margin-bottom: 32px; line-height: 1.5; }
+    .success-icon { font-size: 56px; margin-bottom: 14px; }
+    .success-title { font-size: 22px; font-weight: 700; color: #000000; margin-bottom: 6px; }
+    .success-msg { color: #8E8E93; font-size: 14px; margin-bottom: 28px; line-height: 1.5; }
     .btn-next {
-      padding: 15px 44px;
+      padding: 14px 40px;
       background: #000000;
       color: #FFFFFF;
       border: none;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
     }
-    .btn-next:active { opacity: 0.75; }
 
-    /* ── ERROR TOAST ── */
     .toast {
       display: none;
       position: fixed;
@@ -216,90 +265,151 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-left">
-      <h1>방문자 등록</h1>
-      <div class="sub">SK일렉링크 임직원 방문 기록</div>
+  <!-- SCREEN 1: 개인정보 수집·이용 동의 -->
+  <div id="screenConsent" class="screen">
+    <div class="header">
+      <div class="header-left">
+        <h1>방문자 등록</h1>
+        <div class="sub">SK일렉링크</div>
+      </div>
+      <div class="header-right">
+        <div id="clock">--:--</div>
+        <div id="dateLabel"></div>
+      </div>
     </div>
-    <div class="header-right">
-      <div id="clock">--:--:--</div>
-      <div id="dateLabel">----년 --월 --일</div>
+    <div class="scroll-area">
+      <div class="card">
+        <div class="consent-title">개인정보 수집·이용 동의</div>
+        <div class="consent-subtitle">
+          방문자 등록을 위해 아래 개인정보를 수집합니다.<br>
+          내용을 확인하신 후 동의해 주세요.
+        </div>
+
+        <table class="consent-table">
+          <tr>
+            <th>수집 항목</th>
+            <td>회사명, 이름, 연락처, 방문 시각</td>
+          </tr>
+          <tr>
+            <th>수집 목적</th>
+            <td>방문객 신원 확인, 임시 출입증 대여 및 사내 보안 사고 예방</td>
+          </tr>
+          <tr>
+            <th>보유 기간</th>
+            <td>방문일로부터 1년 후 파기</td>
+          </tr>
+        </table>
+
+        <div class="consent-notice">
+          ※ 이용자는 회사의 개인정보 수집 및 이용 동의를 거부할 권리가 있으며, 동의를 거부할 경우 SK일렉링크 사옥 방문에 제한될 수 있습니다.
+        </div>
+
+        <label class="consent-check-row" for="consentCheck">
+          <input type="checkbox" id="consentCheck">
+          <span class="consent-check-label">위 내용을 확인하였으며 동의합니다 (필수)</span>
+        </label>
+
+        <button class="btn-primary" onclick="goToForm()">
+          동의하고 계속하기
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- SCROLL AREA -->
-  <div class="scroll-area">
-    <div class="card">
-      <form id="visitorForm" novalidate>
 
-        <!-- ① 방문 정보 -->
-        <div class="section-label">방문 정보</div>
-        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
-          <div class="form-group">
-            <label>날짜</label>
-            <input type="date" id="visitDate">
-          </div>
-          <div class="form-group">
-            <label>방문 시각</label>
-            <input type="time" id="visitTime">
-          </div>
-          <div class="form-group">
-            <label>퇴실 예정 시각</label>
-            <input type="time" id="exitTime">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>방문 목적 <span class="req">*</span></label>
-          <select id="visitPurpose" required>
-            <option value="">선택해주세요</option>
-            <option value="미팅/상담">미팅/상담</option>
-            <option value="업무 협의">업무 협의</option>
-            <option value="면접">면접</option>
-            <option value="배송/수령">배송/수령</option>
-            <option value="시설 점검">시설 점검</option>
-            <option value="교육/세미나">교육/세미나</option>
-            <option value="기타">기타</option>
-          </select>
-        </div>
+  <!-- SCREEN 2: 방문자 등록 폼 -->
+  <div id="screenForm" class="screen hidden">
+    <div class="header">
+      <div class="header-left">
+        <h1>방문자 등록</h1>
+        <div class="sub">SK일렉링크</div>
+      </div>
+      <div class="header-right">
+        <div id="clock2">--:--</div>
+        <div id="dateLabel2"></div>
+      </div>
+    </div>
+    <div class="scroll-area">
+      <div class="card">
+        <form id="visitorForm" novalidate>
 
-        <!-- ② 방문자 정보 -->
-        <div class="section-label">방문자 정보</div>
-        <div class="form-row">
+          <!-- ① 방문 정보 -->
+          <div class="section-label">방문 정보</div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>날짜</label>
+              <input type="date" id="visitDate">
+            </div>
+            <div class="form-group">
+              <label>방문 시각</label>
+              <input type="time" id="visitTime">
+            </div>
+            <div class="form-group">
+              <label>퇴실 예정</label>
+              <input type="time" id="exitTime">
+            </div>
+          </div>
           <div class="form-group">
-            <label>방문자 이름 <span class="req">*</span></label>
-            <input type="text" id="visitorName" placeholder="홍길동" required autocomplete="off">
+            <label>방문 목적 <span class="req">*</span></label>
+            <select id="visitPurpose" required>
+              <option value="">선택해주세요</option>
+              <option value="미팅/상담">미팅/상담</option>
+              <option value="업무 협의">업무 협의</option>
+              <option value="면접">면접</option>
+              <option value="배송/수령">배송/수령</option>
+              <option value="시설 점검">시설 점검</option>
+              <option value="교육/세미나">교육/세미나</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+
+          <!-- ② 방문자 정보 -->
+          <div class="section-label">방문자 정보</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>이름 <span class="req">*</span></label>
+              <input type="text" id="visitorName" placeholder="홍길동" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label>연락처 <span class="req">*</span></label>
+              <input type="tel" id="visitorPhone" placeholder="010-0000-0000" required autocomplete="off">
+            </div>
           </div>
           <div class="form-group">
             <label>소속/회사 <span class="req">*</span></label>
             <input type="text" id="visitorCompany" placeholder="회사명" required autocomplete="off">
           </div>
-        </div>
-        <div class="form-group">
-          <label>임시방문증 번호</label>
-          <input type="text" id="badgeNumber" placeholder="예) A-001" autocomplete="off">
-        </div>
 
-        <!-- ③ SK일렉링크 담당자 -->
-        <div class="section-label">SK일렉링크 담당자</div>
-        <div class="form-row">
+          <!-- ③ 임시방문증 -->
+          <div class="section-label">임시방문증</div>
           <div class="form-group">
-            <label>담당자 이름 <span class="req">*</span></label>
-            <input type="text" id="contactName" placeholder="담당자 이름" required autocomplete="off">
+            <label>방문증 번호</label>
+            <input type="text" id="badgeNumber" placeholder="예) A-001" autocomplete="off">
           </div>
-          <div class="form-group">
-            <label>연락처 <span class="req">*</span></label>
-            <input type="tel" id="contactPhone" placeholder="010-0000-0000" required autocomplete="off">
+
+          <!-- ④ SK일렉링크 담당자 -->
+          <div class="section-label">SK일렉링크 담당자</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>담당자 이름 <span class="req">*</span></label>
+              <input type="text" id="contactName" placeholder="이름 세 글자만 작성해주세요." maxlength="3" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label>연락처 뒷 4자리 <span class="req">*</span></label>
+              <input type="tel" id="contactLast4" class="input-last4"
+                placeholder="1234" maxlength="4" required autocomplete="off">
+            </div>
           </div>
-        </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">
-          방문 등록 완료
-        </button>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            방문 등록 완료
+          </button>
 
-      </form>
+        </form>
+      </div>
     </div>
   </div>
+
 
   <!-- SUCCESS OVERLAY -->
   <div class="overlay" id="overlay">
@@ -307,49 +417,56 @@
       <div class="success-icon">✅</div>
       <div class="success-title">등록 완료!</div>
       <div class="success-msg" id="successDetail">방문 기록이 저장되었습니다.</div>
-      <button class="btn-next" onclick="resetForm()">다음 방문자 →</button>
+      <button class="btn-next" onclick="resetAll()">확인</button>
     </div>
   </div>
 
-  <!-- ERROR TOAST -->
+  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <script>
-    // ── 구성 ──────────────────────────────────────────────
-    // Google Apps Script 배포 URL을 아래에 붙여넣으세요
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec';
-    // ──────────────────────────────────────────────────────
 
-    // 헤더 시계
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/a/macros/skelectlink.com/s/AKfycbz94wlAS4kEHUBBUCscRREA01a0EA2a893Pqg6aQk1ShM_Hrq8fSAQLh2JmFxI1WjEj2g/exec';
+
     function tick() {
       const now = new Date();
-      document.getElementById('clock').textContent =
-        now.toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit', second: '2-digit'});
-      document.getElementById('dateLabel').textContent =
-        now.toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'});
+      const time = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+      const date = now.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+      document.getElementById('clock').textContent = time;
+      document.getElementById('dateLabel').textContent = date;
+      document.getElementById('clock2').textContent = time;
+      document.getElementById('dateLabel2').textContent = date;
     }
     setInterval(tick, 1000);
     tick();
 
-    // 날짜·시각 자동 입력
     function fillDateTime() {
       const now = new Date();
-      document.getElementById('visitDate').value =
-        now.toLocaleDateString('en-CA'); // YYYY-MM-DD
-      document.getElementById('visitTime').value =
-        now.toTimeString().slice(0, 5);  // HH:MM
+      document.getElementById('visitDate').value = now.toLocaleDateString('en-CA');
+      document.getElementById('visitTime').value = now.toTimeString().slice(0, 5);
     }
-    fillDateTime();
 
-    // 연락처 하이픈 자동 삽입
-    document.getElementById('contactPhone').addEventListener('input', function () {
+    function goToForm() {
+      if (!document.getElementById('consentCheck').checked) {
+        showToast('개인정보 수집·이용에 동의해주세요.');
+        return;
+      }
+      document.getElementById('screenConsent').classList.add('hidden');
+      document.getElementById('screenForm').classList.remove('hidden');
+      fillDateTime();
+    }
+
+    document.getElementById('visitorPhone').addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '');
       if (v.length <= 3) this.value = v;
-      else if (v.length <= 7) this.value = v.slice(0, 3) + '-' + v.slice(3);
-      else this.value = v.slice(0, 3) + '-' + v.slice(3, 7) + '-' + v.slice(7, 11);
+      else if (v.length <= 7) this.value = v.slice(0,3) + '-' + v.slice(3);
+      else this.value = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
     });
 
-    // 토스트 메시지
+    document.getElementById('contactLast4').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 4);
+    });
+
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -357,23 +474,33 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    // 폼 제출
     document.getElementById('visitorForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const fields = {
+      const required = {
         visitPurpose: '방문 목적',
         visitorName: '방문자 이름',
+        visitorPhone: '방문자 연락처',
         visitorCompany: '소속/회사',
         contactName: '담당자 이름',
-        contactPhone: '연락처',
+        contactLast4: '담당자 연락처 뒷 4자리',
       };
-      for (const [id, label] of Object.entries(fields)) {
+      for (const [id, label] of Object.entries(required)) {
         if (!document.getElementById(id).value.trim()) {
           showToast(`${label}을(를) 입력해주세요.`);
           document.getElementById(id).focus();
           return;
         }
+      }
+      if (document.getElementById('contactLast4').value.length !== 4) {
+        showToast('담당자 연락처 뒷 4자리를 정확히 입력해주세요.');
+        document.getElementById('contactLast4').focus();
+        return;
+      }
+      if (document.getElementById('contactName').value.trim().length !== 3) {
+        showToast('담당자 이름을 세 글자로 입력해주세요.');
+        document.getElementById('contactName').focus();
+        return;
       }
 
       const btn = document.getElementById('submitBtn');
@@ -381,15 +508,17 @@
       btn.textContent = '저장 중…';
 
       const payload = {
-        날짜:        document.getElementById('visitDate').value,
-        방문시각:     document.getElementById('visitTime').value,
-        퇴실예정시각:  document.getElementById('exitTime').value,
-        방문목적:     document.getElementById('visitPurpose').value,
-        방문자이름:   document.getElementById('visitorName').value.trim(),
-        소속회사:     document.getElementById('visitorCompany').value.trim(),
-        임시방문증번호: document.getElementById('badgeNumber').value.trim(),
-        담당자이름:   document.getElementById('contactName').value.trim(),
-        연락처:      document.getElementById('contactPhone').value.trim(),
+        recordType:   'visitor',
+        날짜:          document.getElementById('visitDate').value,
+        방문시각:       document.getElementById('visitTime').value,
+        퇴실예정시각:    document.getElementById('exitTime').value,
+        방문목적:       document.getElementById('visitPurpose').value,
+        방문자이름:     document.getElementById('visitorName').value.trim(),
+        방문자연락처:   document.getElementById('visitorPhone').value.trim(),
+        소속회사:       document.getElementById('visitorCompany').value.trim(),
+        임시방문증번호:  document.getElementById('badgeNumber').value.trim(),
+        담당자이름:     document.getElementById('contactName').value.trim(),
+        담당자뒷번호:   document.getElementById('contactLast4').value.trim(),
       };
 
       try {
@@ -399,8 +528,7 @@
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload),
         });
-        // no-cors 모드에서는 응답을 읽을 수 없으므로 전송 성공으로 간주
-        const detail = `${payload.방문자이름} (${payload.소속회사}) 방문 기록이 저장되었습니다.`;
+        const detail = `${payload.방문자이름} (${payload.소속회사}) 방문 기록이 저장되었습니다.\n담당자에게 알림을 발송했습니다.`;
         document.getElementById('successDetail').textContent = detail;
         document.getElementById('overlay').classList.add('show');
       } catch (err) {
@@ -411,11 +539,12 @@
       }
     });
 
-    // 폼 초기화
-    function resetForm() {
+    function resetAll() {
       document.getElementById('visitorForm').reset();
-      fillDateTime();
+      document.getElementById('consentCheck').checked = false;
       document.getElementById('overlay').classList.remove('show');
+      document.getElementById('screenForm').classList.add('hidden');
+      document.getElementById('screenConsent').classList.remove('hidden');
     }
   </script>
 </body>
