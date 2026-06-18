@@ -87,7 +87,7 @@
     }
     label .req { color: #FF3B30; margin-left: 2px; }
 
-    input, select, textarea {
+    input:not([type="checkbox"]), select, textarea {
       width: 100%;
       padding: 13px 14px;
       font-size: 16px;
@@ -100,7 +100,7 @@
       transition: border-color 0.15s, box-shadow 0.15s;
       -webkit-appearance: none;
     }
-    input:focus, select:focus, textarea:focus {
+    input:not([type="checkbox"]):focus, select:focus, textarea:focus {
       border-color: #000000;
       box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
     }
