@@ -226,7 +226,6 @@
 </head>
 <body>
 
-  <!-- 숨겨진 전송용 form + iframe -->
   <form id="gasForm" method="POST"
     action="https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec"
     target="gasFrame" style="display:none">
@@ -296,6 +295,7 @@
     <div class="scroll-area">
       <div class="card">
         <form id="visitorForm" novalidate>
+
           <div class="section-label">방문 정보</div>
           <div class="form-row-3">
             <div class="form-group">
@@ -341,12 +341,6 @@
             <input type="text" id="visitorCompany" placeholder="회사명" required autocomplete="off">
           </div>
 
-          <div class="section-label">임시방문증</div>
-          <div class="form-group">
-            <label>방문증 번호</label>
-            <input type="text" id="badgeNumber" placeholder="예) A-001" autocomplete="off">
-          </div>
-
           <div class="section-label">SK일렉링크 담당자</div>
           <div class="form-row">
             <div class="form-group">
@@ -368,7 +362,6 @@
     </div>
   </div>
 
-  <!-- SUCCESS OVERLAY -->
   <div class="overlay" id="overlay">
     <div class="success-box">
       <div class="success-icon">✅</div>
@@ -461,20 +454,18 @@
       btn.textContent = '저장 중…';
 
       const payload = {
-        recordType:   'visitor',
-        날짜:          document.getElementById('visitDate').value,
-        방문시각:       document.getElementById('visitTime').value,
-        퇴실예정시각:    document.getElementById('exitTime').value,
-        방문목적:       document.getElementById('visitPurpose').value,
-        방문자이름:     document.getElementById('visitorName').value.trim(),
-        방문자연락처:   document.getElementById('visitorPhone').value.trim(),
-        소속회사:       document.getElementById('visitorCompany').value.trim(),
-        임시방문증번호:  document.getElementById('badgeNumber').value.trim(),
-        담당자이름:     document.getElementById('contactName').value.trim(),
-        담당자뒷번호:   document.getElementById('contactLast4').value.trim(),
+        recordType:  'visitor',
+        날짜:         document.getElementById('visitDate').value,
+        방문시각:      document.getElementById('visitTime').value,
+        퇴실예정시각:   document.getElementById('exitTime').value,
+        방문목적:      document.getElementById('visitPurpose').value,
+        방문자이름:    document.getElementById('visitorName').value.trim(),
+        방문자연락처:  document.getElementById('visitorPhone').value.trim(),
+        소속회사:      document.getElementById('visitorCompany').value.trim(),
+        담당자이름:    document.getElementById('contactName').value.trim(),
+        담당자뒷번호:  document.getElementById('contactLast4').value.trim(),
       };
 
-      // form + iframe 방식으로 전송 (CORS 문제 없음)
       document.getElementById('gasData').value = JSON.stringify(payload);
       document.getElementById('gasForm').submit();
 
