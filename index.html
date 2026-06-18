@@ -13,20 +13,13 @@
       margin: 0; padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
-
     body {
       font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background: #F2F2F7;
       min-height: 100vh;
     }
-
-    .screen {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    .screen { min-height: 100vh; display: flex; flex-direction: column; }
     .screen.hidden { display: none; }
-
     .header {
       background: #FFFFFF;
       border-bottom: 1px solid #E5E5EA;
@@ -44,14 +37,12 @@
     .header-right { text-align: right; }
     #clock { font-size: 20px; font-weight: 600; color: #000000; }
     #dateLabel { font-size: 11px; color: #8E8E93; }
-
     .scroll-area {
       flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 20px 16px 48px;
     }
-
     .card {
       background: #FFFFFF;
       border-radius: 16px;
@@ -60,7 +51,6 @@
       max-width: 540px;
       margin: 0 auto;
     }
-
     .section-label {
       font-size: 11px;
       font-weight: 600;
@@ -72,11 +62,9 @@
       padding-left: 2px;
     }
     .section-label:not(:first-child) { margin-top: 24px; }
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
     .form-group { margin-bottom: 12px; }
-
     label {
       display: block;
       font-size: 13px;
@@ -86,7 +74,6 @@
       padding-left: 2px;
     }
     label .req { color: #FF3B30; margin-left: 2px; }
-
     input:not([type="checkbox"]), select, textarea {
       width: 100%;
       padding: 13px 14px;
@@ -105,37 +92,18 @@
       box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
     }
     input::placeholder { color: #C7C7CC; }
-
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E8E93' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
       padding-right: 40px;
     }
-
     input[type="date"]::-webkit-inner-spin-button,
     input[type="time"]::-webkit-inner-spin-button { display: none; }
-
     .input-last4 { max-width: 120px; letter-spacing: 4px; text-align: center; font-weight: 600; }
-
-    .consent-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #000000;
-      margin-bottom: 6px;
-    }
-    .consent-subtitle {
-      font-size: 13px;
-      color: #8E8E93;
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-    .consent-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
+    .consent-title { font-size: 20px; font-weight: 700; color: #000000; margin-bottom: 6px; }
+    .consent-subtitle { font-size: 13px; color: #8E8E93; margin-bottom: 24px; line-height: 1.5; }
+    .consent-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; }
     .consent-table th, .consent-table td {
       border: 1px solid #E5E5EA;
       padding: 10px 12px;
@@ -151,7 +119,6 @@
       white-space: nowrap;
     }
     .consent-table td { color: #000000; }
-
     .consent-notice {
       font-size: 12px;
       color: #8E8E93;
@@ -161,7 +128,6 @@
       padding: 12px 14px;
       margin-bottom: 20px;
     }
-
     .consent-check-row {
       display: flex;
       align-items: center;
@@ -186,13 +152,7 @@
       border: none;
       box-shadow: none;
     }
-    .consent-check-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #000000;
-      cursor: pointer;
-    }
-
+    .consent-check-label { font-size: 14px; font-weight: 600; color: #000000; cursor: pointer; }
     .btn-primary {
       width: 100%;
       padding: 17px;
@@ -209,7 +169,6 @@
     }
     .btn-primary:active { opacity: 0.75; transform: scale(0.99); }
     .btn-primary:disabled { opacity: 0.3; cursor: default; }
-
     .overlay {
       display: none;
       position: fixed;
@@ -247,7 +206,6 @@
       cursor: pointer;
       font-family: inherit;
     }
-
     .toast {
       display: none;
       position: fixed;
@@ -268,6 +226,14 @@
 </head>
 <body>
 
+  <!-- 숨겨진 전송용 form + iframe -->
+  <form id="gasForm" method="POST"
+    action="https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec"
+    target="gasFrame" style="display:none">
+    <input type="hidden" id="gasData" name="data">
+  </form>
+  <iframe name="gasFrame" style="display:none"></iframe>
+
   <!-- SCREEN 1: 개인정보 수집·이용 동의 -->
   <div id="screenConsent" class="screen">
     <div class="header">
@@ -287,7 +253,6 @@
           방문자 등록을 위해 아래 개인정보를 수집합니다.<br>
           내용을 확인하신 후 동의해 주세요.
         </div>
-
         <table class="consent-table">
           <tr>
             <th>수집 항목</th>
@@ -302,23 +267,19 @@
             <td>방문일로부터 1년 후 파기</td>
           </tr>
         </table>
-
         <div class="consent-notice">
           ※ 이용자는 회사의 개인정보 수집 및 이용 동의를 거부할 권리가 있으며, 동의를 거부할 경우 SK일렉링크 사옥 방문에 제한될 수 있습니다.
         </div>
-
         <label class="consent-check-row" for="consentCheck">
           <input type="checkbox" id="consentCheck">
           <span class="consent-check-label">위 내용을 확인하였으며 동의합니다 (필수)</span>
         </label>
-
         <button class="btn-primary" onclick="goToForm()">
           동의하고 계속하기
         </button>
       </div>
     </div>
   </div>
-
 
   <!-- SCREEN 2: 방문자 등록 폼 -->
   <div id="screenForm" class="screen hidden">
@@ -335,8 +296,6 @@
     <div class="scroll-area">
       <div class="card">
         <form id="visitorForm" novalidate>
-
-          <!-- ① 방문 정보 -->
           <div class="section-label">방문 정보</div>
           <div class="form-row-3">
             <div class="form-group">
@@ -366,7 +325,6 @@
             </select>
           </div>
 
-          <!-- ② 방문자 정보 -->
           <div class="section-label">방문자 정보</div>
           <div class="form-row">
             <div class="form-group">
@@ -383,14 +341,12 @@
             <input type="text" id="visitorCompany" placeholder="회사명" required autocomplete="off">
           </div>
 
-          <!-- ③ 임시방문증 -->
           <div class="section-label">임시방문증</div>
           <div class="form-group">
             <label>방문증 번호</label>
             <input type="text" id="badgeNumber" placeholder="예) A-001" autocomplete="off">
           </div>
 
-          <!-- ④ SK일렉링크 담당자 -->
           <div class="section-label">SK일렉링크 담당자</div>
           <div class="form-row">
             <div class="form-group">
@@ -407,12 +363,10 @@
           <button type="submit" class="btn-primary" id="submitBtn">
             방문 등록 완료
           </button>
-
         </form>
       </div>
     </div>
   </div>
-
 
   <!-- SUCCESS OVERLAY -->
   <div class="overlay" id="overlay">
@@ -424,13 +378,9 @@
     </div>
   </div>
 
-  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec';
-
     function tick() {
       const now = new Date();
       const time = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
@@ -477,7 +427,7 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    document.getElementById('visitorForm').addEventListener('submit', async function (e) {
+    document.getElementById('visitorForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const required = {
@@ -490,7 +440,7 @@
       };
       for (const [id, label] of Object.entries(required)) {
         if (!document.getElementById(id).value.trim()) {
-          showToast(`${label}을(를) 입력해주세요.`);
+          showToast(label + '을(를) 입력해주세요.');
           document.getElementById(id).focus();
           return;
         }
@@ -524,22 +474,17 @@
         담당자뒷번호:   document.getElementById('contactLast4').value.trim(),
       };
 
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(payload),
-        });
-        const detail = `${payload.방문자이름} (${payload.소속회사}) 방문 기록이 저장되었습니다.\n담당자에게 알림을 발송했습니다.`;
+      // form + iframe 방식으로 전송 (CORS 문제 없음)
+      document.getElementById('gasData').value = JSON.stringify(payload);
+      document.getElementById('gasForm').submit();
+
+      setTimeout(function() {
+        const detail = payload.방문자이름 + ' (' + payload.소속회사 + ') 방문 기록이 저장되었습니다.\n담당자에게 알림을 발송했습니다.';
         document.getElementById('successDetail').textContent = detail;
         document.getElementById('overlay').classList.add('show');
-      } catch (err) {
-        showToast('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
-      } finally {
         btn.disabled = false;
         btn.textContent = '방문 등록 완료';
-      }
+      }, 1500);
     });
 
     function resetAll() {
