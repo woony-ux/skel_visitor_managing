@@ -173,16 +173,19 @@
       cursor: pointer;
     }
     .consent-check-row input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
+      -webkit-appearance: checkbox;
+      appearance: checkbox;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
       flex-shrink: 0;
       accent-color: #000000;
       cursor: pointer;
+      margin: 0;
+      padding: 0;
       border: none;
       box-shadow: none;
-      padding: 0;
     }
-    .consent-check-row input[type="checkbox"]:focus { box-shadow: none; }
     .consent-check-label {
       font-size: 14px;
       font-weight: 600;
