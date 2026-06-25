@@ -424,13 +424,13 @@
       e.preventDefault();
 
       const required = {
-        exitTime:     '퇴실 예정 시각',
-        visitPurpose: '방문 목적',
-        visitorName:  '방문자 이름',
-        visitorPhone: '방문자 연락처',
+        exitTime:       '퇴실 예정 시각',
+        visitPurpose:   '방문 목적',
+        visitorName:    '방문자 이름',
+        visitorPhone:   '방문자 연락처',
         visitorCompany: '소속/회사',
-        contactName:  '담당자 이름',
-        contactLast4: '담당자 연락처 뒷 4자리',
+        contactName:    '담당자 이름',
+        contactLast4:   '담당자 연락처 뒷 4자리',
       };
       for (const [id, label] of Object.entries(required)) {
         if (!document.getElementById(id).value.trim()) {
@@ -455,16 +455,16 @@
       btn.textContent = '저장 중…';
 
       const payload = {
-        recordType:  'visitor',
-        날짜:         document.getElementById('visitDate').value,
-        방문시각:      document.getElementById('visitTime').value,
-        퇴실예정시각:   document.getElementById('exitTime').value,
-        방문목적:      document.getElementById('visitPurpose').value,
-        방문자이름:    document.getElementById('visitorName').value.trim(),
-        방문자연락처:  document.getElementById('visitorPhone').value.trim(),
-        소속회사:      document.getElementById('visitorCompany').value.trim(),
-        담당자이름:    document.getElementById('contactName').value.trim(),
-        담당자뒷번호:  document.getElementById('contactLast4').value.trim(),
+        recordType:    'visitor',
+        날짜:           document.getElementById('visitDate').value,
+        방문시각:        document.getElementById('visitTime').value,
+        퇴실예정시각:    document.getElementById('exitTime').value,
+        방문목적:        document.getElementById('visitPurpose').value,
+        방문자이름:      document.getElementById('visitorName').value.trim(),
+        방문자연락처:    document.getElementById('visitorPhone').value.trim(),
+        소속회사:        document.getElementById('visitorCompany').value.trim(),
+        담당자이름:      document.getElementById('contactName').value.trim(),
+        담당자뒷번호:    document.getElementById('contactLast4').value.trim(),
       };
 
       document.getElementById('gasData').value = JSON.stringify(payload);
