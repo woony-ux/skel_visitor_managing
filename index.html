@@ -227,7 +227,7 @@
 <body>
 
   <form id="gasForm" method="POST"
-    action="https://script.google.com/macros/s/AKfycbyhErxWDC_h_PHbgVWhHmas9U7ZA1-v1HJB3v-EYU5tKvvRvYKQ_9Qf-ifUClTc75gRPA/exec"
+    action="https://script.google.com/a/macros/skelectlink.com/s/AKfycbz94wlAS4kEHUBBUCscRREA01a0EA2a893Pqg6aQk1ShM_Hrq8fSAQLh2JmFxI1WjEj2g/exec"
     target="gasFrame" style="display:none">
     <input type="hidden" id="gasData" name="data">
   </form>
@@ -307,8 +307,8 @@
               <input type="time" id="visitTime">
             </div>
             <div class="form-group">
-              <label>퇴실 예정</label>
-              <input type="time" id="exitTime">
+              <label>퇴실 예정 시각 <span class="req">*</span></label>
+              <input type="time" id="exitTime" required>
             </div>
           </div>
           <div class="form-group">
@@ -424,11 +424,12 @@
       e.preventDefault();
 
       const required = {
+        exitTime:     '퇴실 예정 시각',
         visitPurpose: '방문 목적',
-        visitorName: '방문자 이름',
+        visitorName:  '방문자 이름',
         visitorPhone: '방문자 연락처',
         visitorCompany: '소속/회사',
-        contactName: '담당자 이름',
+        contactName:  '담당자 이름',
         contactLast4: '담당자 연락처 뒷 4자리',
       };
       for (const [id, label] of Object.entries(required)) {
