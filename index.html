@@ -13,13 +13,23 @@
       margin: 0; padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
-    body {
+    html, body {
       font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background: #F2F2F7;
-      min-height: 100vh;
+      height: 100%;
+      overflow: hidden;
     }
-    .screen { min-height: 100vh; display: flex; flex-direction: column; }
-    .screen.hidden { display: none; }
+    .screen {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      flex-direction: column;
+      background: #F2F2F7;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 1;
+    }
+    .screen.active { display: flex; }
     .header {
       background: #FFFFFF;
       border-bottom: 1px solid #E5E5EA;
@@ -39,8 +49,6 @@
     .date-label { font-size: 11px; color: #8E8E93; }
     .scroll-area {
       flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       padding: 20px 16px 48px;
     }
     .card {
@@ -257,7 +265,7 @@
   <iframe name="gasFrame" style="display:none"></iframe>
 
   <!-- SCREEN 1: 방문자 개인정보 동의 -->
-  <div id="screenConsent" class="screen">
+  <div id="screenConsent" class="screen active">
     <div class="header">
       <div class="header-left">
         <h1>방문자 등록</h1>
@@ -293,7 +301,7 @@
   </div>
 
   <!-- SCREEN 2: 방문자 등록 폼 -->
-  <div id="screenForm" class="screen hidden">
+  <div id="screenForm" class="screen">
     <div class="header">
       <div class="header-left">
         <h1>방문자 등록</h1>
@@ -368,7 +376,7 @@
   </div>
 
   <!-- SCREEN 3: 주차 개인정보 동의 -->
-  <div id="screenParkingConsent" class="screen hidden">
+  <div id="screenParkingConsent" class="screen">
     <div class="header">
       <div class="header-left">
         <h1>주차 등록</h1>
@@ -404,7 +412,7 @@
   </div>
 
   <!-- SCREEN 4: 차량 번호 입력 -->
-  <div id="screenParkingForm" class="screen hidden">
+  <div id="screenParkingForm" class="screen">
     <div class="header">
       <div class="header-left">
         <h1>주차 등록</h1>
@@ -455,9 +463,18 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var savedVisitorName = '';
-    var savedVisitorDate = '';
-    var savedVisitorTime = '';
+    var savedVisitorName    = '';
+    var savedVisitorDate    = '';
+    var savedVisitorTime    = '';
+    var savedVisitorPurpose = '';
+    var savedContactName    = '';
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
 
     function tick() {
       var now = new Date();
@@ -486,18 +503,13 @@
         showToast('개인정보 수집·이용에 동의해주세요.');
         return;
       }
-      document.getElementById('screenConsent').classList.add('hidden');
-      document.getElementById('screenForm').classList.remove('hidden');
       fillDateTime();
+      showScreen('screenForm');
     }
 
     function goToParkingConsent() {
       document.getElementById('overlay').classList.remove('show');
-      document.getElementById('screenForm').classList.add('hidden');
-      document.getElementById('screenParkingConsent').classList.remove('hidden');
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+      showScreen('screenParkingConsent');
     }
 
     function goToParkingForm() {
@@ -505,11 +517,7 @@
         showToast('개인정보 수집·이용에 동의해주세요.');
         return;
       }
-      document.getElementById('screenParkingConsent').classList.add('hidden');
-      document.getElementById('screenParkingForm').classList.remove('hidden');
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+      showScreen('screenParkingForm');
     }
 
     document.getElementById('visitorPhone').addEventListener('input', function () {
@@ -573,9 +581,11 @@
         담당자뒷번호: document.getElementById('contactLast4').value.trim(),
       };
 
-      savedVisitorName = payload.방문자이름;
-      savedVisitorDate = payload.날짜;
-      savedVisitorTime = payload.방문시각;
+      savedVisitorName    = payload.방문자이름;
+      savedVisitorDate    = payload.날짜;
+      savedVisitorTime    = payload.방문시각;
+      savedVisitorPurpose = payload.방문목적;
+      savedContactName    = payload.담당자이름;
 
       document.getElementById('gasData').value = JSON.stringify(payload);
       document.getElementById('gasForm').submit();
@@ -608,7 +618,9 @@
         recordType: 'parking',
         날짜: savedVisitorDate,
         방문시각: savedVisitorTime,
+        방문목적: savedVisitorPurpose,
         방문자이름: savedVisitorName,
+        담당자이름: savedContactName,
         차량번호: carNumber,
       };
 
@@ -632,13 +644,12 @@
       document.getElementById('overlay').classList.remove('show');
       document.getElementById('overlayVisitorDone').style.display = 'block';
       document.getElementById('overlayParkingDone').style.display = 'none';
-      document.getElementById('screenForm').classList.add('hidden');
-      document.getElementById('screenParkingConsent').classList.add('hidden');
-      document.getElementById('screenParkingForm').classList.add('hidden');
-      document.getElementById('screenConsent').classList.remove('hidden');
       savedVisitorName = '';
       savedVisitorDate = '';
       savedVisitorTime = '';
+      savedVisitorPurpose = '';
+      savedContactName = '';
+      showScreen('screenConsent');
     }
   </script>
 </body>
